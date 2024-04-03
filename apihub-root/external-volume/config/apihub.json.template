@@ -11,9 +11,9 @@
     "get-gtin-owner",
     "leaflet-web-api",
     "integration-api",
+    "versionlessDSU",
     "mq",
     "secrets",
-    "versionlessDSU",
     "lightDBEnclave",
     "staticServer"
   ],
@@ -36,7 +36,11 @@
     },
     "integration-api": {
       "module": "./../../gtin-resolver",
-      "function": "getIntegrationAPIs"
+      "function": "getIntegrationAPIs",
+      "requestLimiterConfig": {
+        "metadataCapacity": 5,
+        "epiCapacity": 5
+      }
     },
     "versionlessDSU": {
       "module": "./components/versionlessDSU"

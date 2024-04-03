@@ -9,8 +9,8 @@ export class ManageBatchPage extends CommonPresenterClass {
         super(element, invalidate);
 
         let params = webSkel.getHashParams();
-        this.gtin = params.gtin;
-        this.batchId = params.batchId;
+        this.productCode = params.productCode || "";
+        this.batchNumber = params.batchNumber || "";
         this.pageTitle = "";
         this.formFieldStateClass = "";
         this.inputState = "";
@@ -18,21 +18,19 @@ export class ManageBatchPage extends CommonPresenterClass {
         this.formActionButtonText = "";
         this.formActionButtonFunction = "";
         this.batch = {};
-        this.batchNumber = "";
         this.batchVersion = 0;
         this.product = {};
-        this.productCode = "";
         this.packagingSiteName = "";
         this.enableExpiryDate = "";
         this.enableExpiryDateCheck = true;
         this.productInventedName = "-";
         this.productMedicinalName = "-";
-        this.productCodeInput = "";
         this.penImage = "";
         this.formActionButtonState = "";
         this.leafletsInfo = "[]";
         this.updatedBatch = {}
-        this.pageMode = this.gtin ? "EDIT_BATCH" : "ADD_BATCH";
+        this.pageMode = this.productCode ? "EDIT_BATCH" : "ADD_BATCH";
+        this.mode = this.productCode ? "edit-bach" : "add-batch";
         this.invalidate(async () => {
             await this.initializePageMode(this.pageMode);
         });
@@ -42,23 +40,17 @@ export class ManageBatchPage extends CommonPresenterClass {
     async initializePageMode(pageMode) {
         const initPage = {
             ADD_BATCH: async () => {
-                let {productOptions, products} = await webSkel.appServices.getProductsForSelect();
+                this.products = await webSkel.appServices.getProductsForSelect();
                 this.pageTitle = "Add Batch";
                 this.formActionButtonText = "Add Batch";
                 this.formActionButtonFunction = "addBatch";
-                this.products = products;
                 this.enableExpiryDate = "on";
                 this.enableExpiryDateCheck = "checked";
-                this.productCodeInput = `<select name="productCode" id="productCode" data-condition="productCodeCondition">
-                                            <option selected value="no-selection" id="placeholder-option">Select a product</option>
-                                            ${productOptions}
-                                        </select>`;
                 this.penImage = `<img class="pen-square" src="./assets/icons/pen-square.svg" alt="pen-square">`;
                 this.updatedBatch = webSkel.appServices.createNewBatch({}, []);
             },
-
             EDIT_BATCH: async () => {
-                let {batch, product, EPIs} = await webSkel.appServices.getBatchData(this.gtin, this.batchId);
+                let {batch, product, EPIs} = await webSkel.appServices.getBatchData(this.productCode, this.batchNumber);
                 this.existingBatch = batch;
                 let batchModel = webSkel.appServices.createNewBatch(batch, EPIs);
                 let enableExpiryDayCheck = "";
@@ -82,8 +74,6 @@ export class ManageBatchPage extends CommonPresenterClass {
                 this.enableExpiryDateCheck = enableExpiryDayCheck;
                 this.productInventedName = product.inventedName;
                 this.productMedicinalName = product.nameMedicinalProduct;
-                this.productCodeInput = `<input type="text" class="text-input" name="productCode" id="productCode" autocomplete="off" disabled
-                                        value="${product.productCode}">`;
                 this.penImage = "";
                 this.formActionButtonState = "disabled";
                 this.leafletsInfo = this.getEncodedEPIS(EPIs);
@@ -109,7 +99,7 @@ export class ManageBatchPage extends CommonPresenterClass {
 
     detectInputChange(event) {
         let inputName = event.target.name;
-        if (inputName === "expiryDate") {
+        if (inputName === "expiryDate" && event.target.value) {
             this.updatedBatch.expiryDate = webSkel.appServices.formatBatchExpiryDate(event.target.value);
             //to do format with 00 if no day in date
             this.element.querySelector("label.gs1-date").innerHTML = `GS1 format (${this.updatedBatch.expiryDate.length === 4 ? this.updatedBatch.expiryDate + "00" : this.updatedBatch.expiryDate})`
@@ -166,6 +156,13 @@ export class ManageBatchPage extends CommonPresenterClass {
         const pageModes = {
 
             ADD_BATCH: () => {
+                let selectInput = this.element.querySelector("select#productCode");
+                this.products.forEach(product => {
+                    let option = document.createElement("option");
+                    option.value = product.productCode;
+                    option.text = `${product.productCode} - ${product.inventedName}`;
+                    selectInput.appendChild(option);
+                });
                 dateContainer.insertBefore(webSkel.appServices.createDateInput('date'), dateContainer.firstChild);
                 this.element.querySelector('#productCode').addEventListener('change', async (event) => {
                     const {value: productCode} = event.target;
@@ -209,11 +206,14 @@ export class ManageBatchPage extends CommonPresenterClass {
     deleteEpi(_target) {
         let epiUnit = webSkel.appServices.deleteEPI(_target, this.updatedBatch.EPIs);
         //trigger on change for epis
+        if (!this.batch || !this.batch.EPIs || !this.batch.EPIs.find(item => item.language === epiUnit.language && item.type === epiUnit.type)) {
+            this.updatedBatch.EPIs = this.updatedBatch.EPIs.filter(item => item.language !== epiUnit.language || item.type !== epiUnit.type)
+        }
         this.updatedBatch.EPIs = JSON.parse(JSON.stringify(this.updatedBatch.EPIs));
         this.reloadLeafletTab(this.getEncodedEPIS(this.updatedBatch.EPIs));
     }
 
-    addOrUpdateEpi(EPIData) {
+    async addOrUpdateEpi(EPIData) {
         const existingLeafletIndex = (this.updatedBatch.EPIs || []).findIndex(epi => epi.language === EPIData.language);
         if (existingLeafletIndex !== -1) {
             /* epi already exists */
@@ -221,8 +221,18 @@ export class ManageBatchPage extends CommonPresenterClass {
                 /* previously added epi */
                 EPIData.action = "add"
             } else {
-                /* previously existent epi */
-                EPIData.action = "update"
+                let accept = await webSkel.showModal("dialog-modal", {
+                    header: "Warning!!!",
+                    message: `This action will replace ${EPIData.languageLabel} ${EPIData.type}`,
+                    denyButtonText: "Cancel",
+                    acceptButtonText: "Proceed"
+                }, true);
+                if (accept) {
+                    EPIData.action = "update"
+                } else {
+                    return
+                }
+
             }
             this.updatedBatch.EPIs[existingLeafletIndex] = EPIData;
             console.log(`Updated epi, language: ${EPIData.language}`);
@@ -231,13 +241,13 @@ export class ManageBatchPage extends CommonPresenterClass {
             EPIData.action = "add";
             this.updatedBatch.EPIs.push(EPIData);
         }
+        this.onChange();
+        this.reloadLeafletTab(this.getEncodedEPIS(this.updatedBatch.EPIs));
     }
 
     async handleEPIModalData(EPIData) {
         EPIData.id = webSkel.appServices.generateID(16);
-        this.addOrUpdateEpi(EPIData);
-        this.onChange();
-        this.reloadLeafletTab(this.getEncodedEPIS(this.updatedBatch.EPIs));
+        await this.addOrUpdateEpi(EPIData);
     }
 
     productCodeCondition(element, formData) {
@@ -249,40 +259,45 @@ export class ManageBatchPage extends CommonPresenterClass {
         return !webSkel.appServices.hasCodeOrHTML(element.value);
     }
 
+    validateFormData(data) {
+        const errors = [];
+        if (!data.productCode || data.productCode === "no-selection") {
+            errors.push('No selection for Product Code.');
+        }
+
+        if (!/^[a-zA-Z0-9\/\-]{1,20}$/.test(data.batchNumber)) {
+            errors.push('Batch number is a mandatory field and can contain only alphanumeric characters and a maximum length of 20');
+        }
+
+        if (!data.expiryDate) {
+            errors.push('Expiration date is a mandatory field.');
+        }
+        return {isValid: errors.length === 0, validationErrors: errors}
+    }
+
     async addBatch(_target) {
-        const conditions = {
-            "productCodeCondition": {
-                fn: this.productCodeCondition,
-                errorMessage: "Please select a product code! "
-            },
-            "otherFieldsCondition": {
-                fn: this.otherFieldsCondition,
-                errorMessage: "Invalid input!"
-            }
-        };
+        let formData = await webSkel.extractFormInformation(_target);
 
-        let formData = await webSkel.extractFormInformation(_target, conditions);
-
-        if (formData.isValid) {
+        let validationResult = this.validateFormData(formData.data);
+        if (validationResult.isValid) {
             formData.data.expiryDate = webSkel.appServices.formatBatchExpiryDate(formData.data.expiryDate);
             if (webSkel.appServices.getDateInputTypeFromDateString(formData.data.expiryDate) === 'month') {
                 formData.data.expiryDate = webSkel.appServices.prefixMonthDate(formData.data.expiryDate);
             }
             formData.data.EPIs = this.updatedBatch.EPIs;
             await webSkel.appServices.saveBatch(formData.data);
+        } else {
+            validationResult.validationErrors.forEach((err) => {
+                webSkel.notificationHandler.reportUserRelevantError(err);
+            })
         }
 
     }
 
     async updateBatch() {
-        const conditions = {
-            "otherFieldsCondition": {
-                fn: this.otherFieldsCondition,
-                errorMessage: "Invalid input!"
-            }
-        };
-        const formData = await webSkel.extractFormInformation(this.element.querySelector("form"), conditions);
-        if (formData.isValid) {
+        const formData = await webSkel.extractFormInformation(this.element.querySelector("form"));
+        let validationResult = this.validateFormData(this.updatedBatch);
+        if (validationResult.isValid) {
             let expiryDate = webSkel.appServices.formatBatchExpiryDate(formData.data.expiryDate);
             if (webSkel.appServices.getDateInputTypeFromDateString(expiryDate) === 'month') {
                 expiryDate = webSkel.appServices.prefixMonthDate(expiryDate);
@@ -307,6 +322,10 @@ export class ManageBatchPage extends CommonPresenterClass {
 
                 await webSkel.appServices.saveBatch(this.updatedBatch, true, shouldSkipMetadataUpdate);
             }
+        } else {
+            validationResult.validationErrors.forEach((err) => {
+                webSkel.notificationHandler.reportUserRelevantError(err);
+            })
         }
     }
 

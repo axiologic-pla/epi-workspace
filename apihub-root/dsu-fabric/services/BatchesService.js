@@ -148,6 +148,7 @@ export class BatchesService {
         dateInput.classList.add('form-control');
         dateInput.setAttribute('name', 'expiryDate');
         dateInput.setAttribute('type', dateInputType);
+        dateInput.setAttribute('min', "2000-01-01");
         dateInput.required = true;
         if (assignDateValue) {
             /* to reverse the format of the date displayed on UI */
@@ -159,12 +160,19 @@ export class BatchesService {
         }
         dateInput.addEventListener('click', function () {
             this.blur();
+            this.oldValue = this.value;
             if ('showPicker' in this) {
                 this.showPicker();
             }
         });
         let self = this;
         dateInput.addEventListener('change', function (event) {
+            if (!event.target.value) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+                webSkel.notificationHandler.reportUserRelevantError("Expiry date is a mandatory field and can not be empty. Please select a valid date");
+                return;
+            }
             self.updateUIDate(this, event.target.value);
         })
         return dateInput
@@ -384,7 +392,7 @@ export class BatchesService {
                     }
                 } catch (err) {
                     await webSkel.closeModal(modal);
-                    webSkel.notificationHandler.reportUserRelevantError(webSkel.appServices.getToastListContent(`Something went wrong!!!<br> Couldn't update data for batch ${batchData.batchNumber} and product code: ${batchData.productCode}. <br> ${err.reason}`), err);
+                    webSkel.notificationHandler.reportUserRelevantError(webSkel.appServices.getToastListContent(`Something went wrong!!!<br> Couldn't update data for batch ${batchData.batchNumber} and product code: ${batchData.productCode}. <br> ${webSkel.appServices.getErrDetails(err)}`), err);
                     return;
                 }
             }
@@ -393,7 +401,7 @@ export class BatchesService {
                 await webSkel.appServices.executeEPIActions(batchData.EPIs, batchData.productCode, batchData.batchNumber);
             } catch (err) {
                 await webSkel.closeModal(modal);
-                webSkel.notificationHandler.reportUserRelevantError(webSkel.appServices.getToastListContent(`Something went wrong!!!<br> Couldn't update data for batch ${batchData.batchNumber} and product code: ${batchData.productCode}. <br> ${err.reason}`), err);
+                webSkel.notificationHandler.reportUserRelevantError(webSkel.appServices.getToastListContent(`Something went wrong!!!<br> Couldn't update data for batch ${batchData.batchNumber} and product code: ${batchData.productCode}. <br> ${webSkel.appServices.getErrDetails(err)}`), err);
                 return;
             }
         } else {
@@ -510,10 +518,7 @@ export class BatchesService {
                 await navigateToPage("manage-product-page");
             }, 3000);
         }
-        const productOptions = products.map(product => {
-            return `<option value="${product.productCode}"> ${product.productCode} - ${product.inventedName} </option>`;
-        }).join("");
-        return {productOptions, products}
+        return products
     }
 
     async getBatches(number = undefined, query = undefined, sortDirection = "desc") {
