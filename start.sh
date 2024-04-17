@@ -1,1 +1,2 @@
-nohup npm run server & disown
+nohup npm run server &
+disown

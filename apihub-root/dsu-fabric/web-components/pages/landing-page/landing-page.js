@@ -1,6 +1,7 @@
 import {getUserDetails, loadPage, getSSOId} from "../../../utils/utils.js";
 import {getPermissionsWatcher} from "../../../services/PermissionsWatcher.js";
 import env from "../../../environment.js";
+
 const openDSU = require("opendsu");
 const keySSISpace = openDSU.loadAPI("keyssi");
 const crypto = openDSU.loadAPI("crypto");
@@ -22,7 +23,7 @@ export class LandingPage {
         this.sourcePage = this.element.getAttribute("data-source-page");
         this.invalidate(async () => {
             const migrationStatus = await this.getMigrationStatus();
-            if(migrationStatus === MIGRATION_STATUS.NOT_STARTED){
+            if (migrationStatus === MIGRATION_STATUS.NOT_STARTED) {
                 alert("Migration is needed. Please access the Demiurge Wallet or ask your administrator to access it then refresh this page.");
                 return;
             }
@@ -72,7 +73,7 @@ export class LandingPage {
 
     getMigrationStatus = async () => {
         let response = await fetch(`${window.location.origin}/getMigrationStatus`);
-        if(response.status !== 200){
+        if (response.status !== 200) {
             throw new Error(`Failed to check if migration is needed. Status: ${response.status}`);
         }
         let migrationStatus = await response.text();
@@ -101,7 +102,7 @@ export class LandingPage {
                 },
                 body: JSON.stringify(putData)
             });
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
         return putData.secret;

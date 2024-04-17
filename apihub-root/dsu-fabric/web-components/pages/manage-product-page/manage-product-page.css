@@ -11,12 +11,14 @@
     left: 0px;
     opacity: 0.7;
 }
-.read-only-label{
+
+.read-only-label {
     font-weight: 700;
     color: var(--light-green);
     font-size: 1.802rem;
     margin-bottom: 10px;
 }
+
 input[type="text"] {
     margin-top: 20px;
 }

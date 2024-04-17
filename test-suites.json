@@ -1,3 +1,5 @@
 {
-  "testDirs": ["./gtin-resolver/tests"]
+  "testDirs": [
+    "./gtin-resolver/tests"
+  ]
 }

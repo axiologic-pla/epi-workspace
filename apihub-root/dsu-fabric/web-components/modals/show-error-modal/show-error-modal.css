@@ -7,7 +7,7 @@
 
 dialog[class="modal"] {
     padding: 0;
-    border:none;
+    border: none;
 }
 
 #show-error-modal {
@@ -15,13 +15,13 @@ dialog[class="modal"] {
 }
 
 #show-error-modal-header {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    margin-top:30px;
-    border-bottom:1px solid var(--error-modal-border);
-    padding-bottom:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    border-bottom: 1px solid var(--error-modal-border);
+    padding-bottom: 10px;
 }
 
 #error-message {
@@ -51,7 +51,7 @@ dialog[class="modal"] {
     line-height: 21px;
     letter-spacing: 0;
     text-align: justify;
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 #detailed-error-message {
@@ -63,7 +63,7 @@ dialog[class="modal"] {
     border: 1px solid var(--error-modal-border);
     padding: 10px;
     border-radius: 4px;
-    text-align:justify;
+    text-align: justify;
 }
 
 #details-toggle:checked ~ #detailed-error-message {
@@ -76,7 +76,7 @@ dialog[class="modal"] {
 
 #details-button,
 #ok-button {
-    font-weight:600;
+    font-weight: 600;
     padding: 8px 15px;
     margin: 5px;
     border: 1px solid;

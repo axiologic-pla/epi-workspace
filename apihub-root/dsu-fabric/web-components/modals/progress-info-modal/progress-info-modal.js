@@ -7,7 +7,7 @@ export class ProgressInfoModal {
         this.invalidate();
     }
 
-    beforeRender(){
+    beforeRender() {
     }
 
 }

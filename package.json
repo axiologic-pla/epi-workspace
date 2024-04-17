@@ -50,5 +50,8 @@
   "homepage": "https://github.com/pharmaledgerassoc/epi-workspace#readme",
   "dependencies": {
     "octopus": "git+http://github.com/opendsu/octopus.git"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
   }
 }

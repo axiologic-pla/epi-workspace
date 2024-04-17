@@ -1,17 +1,19 @@
 import {CommonPresenterClass} from "../../CommonPresenterClass.js";
+
 export class SearchInput extends CommonPresenterClass {
     constructor(element, invalidate) {
         super(element, invalidate);
         this.inputName = this.element.getAttribute("data-input");
         this.searchResultIcon = this.element.getAttribute("data-result-icon");
         this.focusInput = this.element.getAttribute("data-focus");
-        this.placeholder= this.element.getAttribute("data-placeholder");
+        this.placeholder = this.element.getAttribute("data-placeholder");
         this.invalidate();
     }
 
     beforeRender() {
 
     }
+
     afterRender() {
         this.searchInput = this.element.querySelector(`#${this.inputName}`);
         this.searchInputContainer = this.element.querySelector(".input-container");
@@ -54,6 +56,7 @@ export class SearchInput extends CommonPresenterClass {
             this.focusInput = false;
         }
     }
+
     toggleSearchIcons(xMark) {
         if (this.searchInput.value === "") {
             xMark.style.display = "none";
@@ -63,7 +66,7 @@ export class SearchInput extends CommonPresenterClass {
     }
 
     removeFocus(xMark, event) {
-        if(event.relatedTarget !== xMark){
+        if (event.relatedTarget !== xMark) {
             xMark.style.display = "none";
         }
     }
@@ -80,7 +83,7 @@ export class SearchInput extends CommonPresenterClass {
         }
     }
 
-    search(event){
+    search(event) {
         if (event.key === "Enter") {
             event.preventDefault();
             let searchEvent = new Event('search', {

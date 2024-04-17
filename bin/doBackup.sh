@@ -1,4 +1,4 @@
-if [ -z $1 ] ;then
+if [ -z $1 ]; then
   echo "Failed to execute due to missing backupIdentifier argument"
   echo "Usage example: ./doBackup.sh backupIdentifier"
   exit 1

@@ -26,91 +26,91 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it and copies all sources into ZIP file for submitting for analysis. Replace this section with your applications build steps
-    - uses: actions/checkout@v3
-      with:
-        repository: ''
-    - run: npm run dev-install
-      env:
-        GITHUB_ORGANIZATION: ${{ github.event.repository.owner.login }}
-    - run: cd .github && ./generateZipArchivesForStaticAnalysis.sh skipDateIdentifier
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it and copies all sources into ZIP file for submitting for analysis. Replace this section with your applications build steps
+      - uses: actions/checkout@v3
+        with:
+          repository: ''
+      - run: npm run dev-install
+        env:
+          GITHUB_ORGANIZATION: ${{ github.event.repository.owner.login }}
+      - run: cd .github && ./generateZipArchivesForStaticAnalysis.sh skipDateIdentifier
 
-    - name: Backend Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/Backend.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'Backend'
+      - name: Backend Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/Backend.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'Backend'
 
-    - name: CommonBrowserLibs Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/CommonBrowserLibs.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'common-browser-libs'
-        
-    - name: Demiurge Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/Demiurge.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'Demiurge'
-        
-    - name: Enterprise Wallet Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/EnterpriseWallet.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'EnterpriseWallet'
-        
-    - name: GtinResolver Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/GtinResolver.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'GTIN Resolver'
-    
-    - name: LPWA Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/LPWA.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'LPWA'
-        
-    - name: Octopus Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/Octopus.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'octopus'
-        
-    - name: Trust Loader Scan
-      uses: veracode/veracode-uploadandscan-action@0.2.4
-      with:
-        appname: 'EPI'
-        createprofile: false
-        filepath: '.github/generated/TrustLoader.zip'
-        vid: '${{secrets.VERACODE_API_ID}}'
-        vkey: '${{secrets.VERACODE_API_KEY}}'
-        sandboxname: 'trust-loader'
+      - name: CommonBrowserLibs Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/CommonBrowserLibs.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'common-browser-libs'
+
+      - name: Demiurge Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/Demiurge.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'Demiurge'
+
+      - name: Enterprise Wallet Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/EnterpriseWallet.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'EnterpriseWallet'
+
+      - name: GtinResolver Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/GtinResolver.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'GTIN Resolver'
+
+      - name: LPWA Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/LPWA.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'LPWA'
+
+      - name: Octopus Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/Octopus.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'octopus'
+
+      - name: Trust Loader Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: 'EPI'
+          createprofile: false
+          filepath: '.github/generated/TrustLoader.zip'
+          vid: '${{secrets.VERACODE_API_ID}}'
+          vkey: '${{secrets.VERACODE_API_KEY}}'
+          sandboxname: 'trust-loader'

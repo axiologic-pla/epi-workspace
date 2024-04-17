@@ -1,8 +1,8 @@
 {
   "anchoring": {
-    "type": "FS",
+    "type": "ETH",
     "option": {
-      "enableBricksLedger": false
+      "endpoint": "http://localhost:3000"
     },
     "commands": {
       "addAnchor": "anchor"
@@ -11,10 +11,12 @@
   "skipOAuth": [
     "/bricking/epi/get-brick"
   ],
-  "mappingEnginResultURLs": [{
-    "endPointId": "NOVARTIS_P75_010",
-    "endPointURL": "http://localhost:8080/mappingEngine/epi/default/saveResult"
-  }],
+  "mappingEnginResultURLs": [
+    {
+      "endPointId": "NOVARTIS_P75_010",
+      "endPointURL": "http://localhost:8080/mappingEngine/epi/default/saveResult"
+    }
+  ],
   "mappingEnginResultURL": "http://localhost:8080/mappingEngine/epi/default/saveResult",
   "bricksDomain": "default"
 }

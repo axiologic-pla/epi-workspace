@@ -4,7 +4,7 @@ let arguments = {};
 //process.env.PSK_CONFIG_LOCATION = "../apihub-root/external-volume/config";
 
 if (process.argv.length > 2) {
-    for(let idx in process.argv){
+    for (let idx in process.argv) {
         let argument = process.argv[idx].replace('--', '').split('=');
         let arg_name = argument[0];
         let arg_value = argument[1];
@@ -18,13 +18,13 @@ console.log("Received arguments =  " + arguments);
 const pskBundle = arguments.bundle || "../opendsu-sdk/builds/output/pskWebServer";
 require(pskBundle);
 
-if(typeof arguments.env !== 'undefined'){
-    try{
+if (typeof arguments.env !== 'undefined') {
+    try {
         let env = JSON.parse(arguments.env);
-        for (let prop in env){
+        for (let prop in env) {
             process.env[prop] = env[prop];
         }
-    } catch(e){
+    } catch (e) {
         console.log("Failed to parse env argument ", e);
     }
 }
@@ -32,7 +32,6 @@ if(typeof arguments.env !== 'undefined'){
 const TAG = "MOBILE-API-HUB";
 const path = require("swarmutils").path;
 const API_HUB = require('apihub');
-
 
 
 let config = API_HUB.getServerConfig();
@@ -55,8 +54,8 @@ API_HUB.createInstance(listeningPort, rootFolder, (err) => {
     fs = require('fs');
     let apicFilePath = rootFolder + '/pid';
     console.log(`\n[${TAG}] APIC file :${apicFilePath} .\n`);
-    console.log(`\n[${TAG}] APIC arguments: `,  arguments.apic);
-    fs.writeFile(apicFilePath, arguments.apic , function (err) {
+    console.log(`\n[${TAG}] APIC arguments: `, arguments.apic);
+    fs.writeFile(apicFilePath, arguments.apic, function (err) {
         if (err) {
             return console.log(err);
         }

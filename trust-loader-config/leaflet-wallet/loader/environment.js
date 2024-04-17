@@ -1,22 +1,22 @@
-export default  {
-  "appName": "eLeaflet",
-  "vault": "server",
-  "agent": "browser",
-  "system":   "any",
-  "browser":  "any",
-  "mode":  "autologin",
-  "vaultDomain":  "vault",
-  "didDomain":  "vault",
-  "epiDomain": "epi",
-  "enclaveType": "WalletDBEnclave",
-  "sw": false,
-  "pwa": false,
-  "allowPinLogin": false,
-  "lockFeatures": false,
-  "disabledFeatures": "02, 04, 05, 06, 07, 08, 09",
-  "easterEggEnabled": true,
-  "epiProtocolVersion": 1,
-  "appBuildVersion": "v2023.0.2"
+export default {
+    "appName": "eLeaflet",
+    "vault": "server",
+    "agent": "browser",
+    "system": "any",
+    "browser": "any",
+    "mode": "autologin",
+    "vaultDomain": "vault",
+    "didDomain": "vault",
+    "epiDomain": "epi",
+    "enclaveType": "WalletDBEnclave",
+    "sw": false,
+    "pwa": false,
+    "allowPinLogin": false,
+    "lockFeatures": false,
+    "disabledFeatures": "02, 04, 05, 06, 07, 08, 09",
+    "easterEggEnabled": true,
+    "epiProtocolVersion": 1,
+    "appBuildVersion": "v2023.0.2"
 }
 /*Legend:
   vault:(server, browser)

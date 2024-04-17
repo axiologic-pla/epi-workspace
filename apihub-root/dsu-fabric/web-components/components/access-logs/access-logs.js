@@ -4,7 +4,7 @@ export class AccessLogs {
     constructor(element, invalidate) {
         this.element = element;
         this.invalidate = invalidate;
-        this.setPaginationDefaultValues = ()=>{
+        this.setPaginationDefaultValues = () => {
             this.logsNumber = 16;
             this.disableNextBtn = true;
             this.firstElementTimestamp = 0;
@@ -58,8 +58,8 @@ export class AccessLogs {
             nextBtn.classList.add("disabled");
         }
         this.searchInput = this.element.querySelector("search-input");
-        if(this.searchInput){
-            if(this.boundSearchLogs){
+        if (this.searchInput) {
+            if (this.boundSearchLogs) {
                 this.searchInput.removeEventListener("search", this.boundSearchLogs);
             }
             this.boundSearchLogs = this.searchLogs.bind(this);
@@ -126,7 +126,7 @@ export class AccessLogs {
             this.firstElementTimestamp = this.previousPageFirstElements.pop();
             this.lastElementTimestamp = undefined;
             let query = [`__timestamp <= ${this.firstElementTimestamp}`];
-            if(this.userIdFilter){
+            if (this.userIdFilter) {
                 query.push(this.userIdFilter);
             }
             this.loadLogs(query);
@@ -139,7 +139,7 @@ export class AccessLogs {
             this.firstElementTimestamp = this.lastElementTimestamp;
             this.lastElementTimestamp = undefined;
             let query = [`__timestamp < ${this.firstElementTimestamp}`];
-            if(this.userIdFilter){
+            if (this.userIdFilter) {
                 query.push(this.userIdFilter);
             }
             this.loadLogs(query);

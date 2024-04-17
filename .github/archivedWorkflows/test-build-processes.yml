@@ -50,11 +50,11 @@ jobs:
       # create a replacement for missing sleep cmd
       - name: sleep-alternative
         run: echo 'console.log("TIC"); setTimeout(()=>{console.log("TAC")}, process.argv[3])' >> timeout.js
-        
+
       # prepare test script
       - name: Prepare test script
-        run: echo 'npm run server &' >> run-test.sh && echo 'node timeout.js 60*1000' >> run-test.sh && echo 'npm run build-all' >> run-test.sh && echo 'npm run build-mobile' >> run-test.sh && echo 'killall -9 node' >> run-test.sh && chmod 711 run-test.sh 
-        
+        run: echo 'npm run server &' >> run-test.sh && echo 'node timeout.js 60*1000' >> run-test.sh && echo 'npm run build-all' >> run-test.sh && echo 'npm run build-mobile' >> run-test.sh && echo 'killall -9 node' >> run-test.sh && chmod 711 run-test.sh
+
       # Run build tests
       - name: Run build tests
         run: ./run-test.sh

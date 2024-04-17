@@ -1,4 +1,4 @@
-dialog{
+dialog {
     background: none;
     max-height: 95vh;
     height: 95%;
@@ -7,14 +7,16 @@ dialog{
     max-width: 75vw;
     width: 75%;
 }
-data-matrix-modal{
+
+data-matrix-modal {
     margin-left: 240px;
     height: 100%;
     display: flex;
     flex-direction: column;
 
 }
-.modal-header{
+
+.modal-header {
     background-color: var(--primary-text-color);
     display: flex;
     justify-content: space-between;
@@ -22,21 +24,26 @@ data-matrix-modal{
     padding: 16px;
     border-bottom: 1px solid var(--very-light-grey);
 }
-.modal-title{
+
+.modal-title {
     font-size: 1.25rem;
     font-weight: 500;
 }
-.right-section{
+
+.right-section {
     display: flex;
     align-items: center;
 }
-.close-icon{
+
+.close-icon {
     font-size: 24px;
 }
-.expand-icon{
+
+.expand-icon {
     margin-right: 20px;
 }
-.modal-body{
+
+.modal-body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,17 +53,19 @@ data-matrix-modal{
     height: calc(100% - 131px);
 }
 
-.modal-footer{
+.modal-footer {
     border-top: 1px solid var(--very-light-grey);
     background-color: var(--primary-text-color);
     padding: 16px;
     display: flex;
     justify-content: end;
 }
-.default-button{
+
+.default-button {
     font-size: 110%;
 }
-.data-matrix{
+
+.data-matrix {
     width: 240px;
     height: 240px;
 }

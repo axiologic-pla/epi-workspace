@@ -22,7 +22,7 @@ export class MarketsTab extends CommonPresenterClass {
                                 ${this.userRights === constants.USER_RIGHTS.WRITE ? `<div class="delete-button pointer" data-local-action="deleteMarket">
                                         <img class="market-img" src="./assets/icons/thrash.svg" alt="thrash">
                                     </div>` : ''
-                                }   
+                }   
                               </div>`;
             }
         } else {

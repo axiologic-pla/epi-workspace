@@ -96,7 +96,7 @@ function watchApplication(appPath) {
         '--workingDirectory', rootDir,
         '--allowedFileExtensions=.js,.html,.css,.json',
         '--ignore', '/code/constitution,/code/scripts/bundles,/build/tmp,/builds/tmp'], {
-            stdio: 'pipe'
+        stdio: 'pipe'
     });
     childProcessesPIds.push(proc.pid);
 

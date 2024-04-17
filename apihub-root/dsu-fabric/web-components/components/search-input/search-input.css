@@ -6,7 +6,8 @@ search-input input {
     width: 16%;
     min-width: 240px;
 }
-.input-container{
+
+.input-container {
     display: inline-block;
     position: relative;
     min-width: 240px;

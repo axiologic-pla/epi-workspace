@@ -59,10 +59,11 @@
   },
   "enableRequestLogger": true,
   "enableJWTAuthorisation": false,
-  "enableSimpleAuth": true,
-  "enableOAuth": false,
+  "enableOAuth": true,
+  "enableAPIKeyAuth": true,
+  "enableClientCredentialsOauth": true,
   "oauthJWKSEndpoint": "https://login.microsoftonline.com/d69968dd-8f36-47eb-b724-7f5e6e660066/discovery/v2.0/keys",
-  "enableLocalhostAuthorization": false,
+  "enableLocalhostAuthorization": true,
   "skipOAuth": [
     "/assets",
     "/bdns",
@@ -87,7 +88,7 @@
     },
     "sessionTimeout": 1800000,
     "keyTTL": 3600000,
-    "debugLogEnabled": false
+    "debugLogEnabled": true
   },
-  "serverAuthentication": false
+  "serverAuthentication": true
 }

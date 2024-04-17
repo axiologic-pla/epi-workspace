@@ -15,7 +15,7 @@ async function moveBricksForDomain(domain) {
         const subfolders = await fs.readdir(BRICK_STORAGE_PATH);
 
         for (const subfolder of subfolders) {
-            if(subfolder.length > 2) {
+            if (subfolder.length > 2) {
                 const subfolderPath = path.join(BRICK_STORAGE_PATH, subfolder);
                 const brickFiles = await fs.readdir(subfolderPath);
 
@@ -64,10 +64,10 @@ const checkIfMigrationIsNeeded = async () => {
 }
 
 async function countItems(dir) {
-    let count = { directories: 0, files: 0 };
+    let count = {directories: 0, files: 0};
 
     try {
-        const items = await fs.readdir(dir, { withFileTypes: true });
+        const items = await fs.readdir(dir, {withFileTypes: true});
         for (let item of items) {
             if (item.isDirectory()) {
                 count.directories++;
@@ -95,7 +95,7 @@ const moveBricks = async () => {
     }
 
     const numberOfFoldersAndFilesBeforeMigration = await countItems(domainsPath);
-    console.info(0x222,"Number of folders before migration:", numberOfFoldersAndFilesBeforeMigration.directories, "Number of files before migration:", numberOfFoldersAndFilesBeforeMigration.files);
+    console.info(0x222, "Number of folders before migration:", numberOfFoldersAndFilesBeforeMigration.directories, "Number of files before migration:", numberOfFoldersAndFilesBeforeMigration.files);
     try {
         await fs.access(domainsPath);
     } catch (e) {

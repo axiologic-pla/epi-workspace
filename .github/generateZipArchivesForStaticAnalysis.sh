@@ -1,11 +1,10 @@
-initialPWD=`pwd`
-if [ -n "$1" ]
-then
-  currentDate=``
-  targetFolder=``
+initialPWD=$(pwd)
+if [ -n "$1" ]; then
+  currentDate=$()
+  targetFolder=$()
 else
-  currentDate="-"`date +'%m-%d-%Y'`
-  targetFolder="-"`date +'%m-%d-%Y-%H-%M'`
+  currentDate="-"$(date +'%m-%d-%Y')
+  targetFolder="-"$(date +'%m-%d-%Y-%H-%M')
 fi
 
 targetFolder="$initialPWD/generated$targetFolder"
