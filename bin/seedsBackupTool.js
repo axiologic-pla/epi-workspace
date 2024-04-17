@@ -10,7 +10,7 @@ if (os.platform() == "win32") {
     slash = "\\";
 }
 
-myPath = process.cwd() + slash;
+const myPath = process.cwd() + slash;
 
 console.log("Doing...", op, myPath);
 
@@ -23,7 +23,7 @@ function walk(dir, filterFiles, filterFolders, done) {
 
     let recWalk = function (dir, filterFiles, filterFolders, done) {
         fs.readdir(dir, function (err, list) {
-            if (err) return done(err, result);
+            if (err) return done(err, list);
             let i = 0;
             (function next() {
                 let file = list[i++];
@@ -34,7 +34,7 @@ function walk(dir, filterFiles, filterFolders, done) {
                         if (filterFolders(file)) {
                             results.push(file);
                         }
-                        recWalk(file, filterFiles, filterFolders, function (err, res) {
+                        recWalk(file, filterFiles, filterFolders, function () {
                             next();
                         });
                     } else {
@@ -72,7 +72,7 @@ function filterFolders(name) {
     return undefined;
 }
 
-if (op == "backup") {
+if (op === "backup") {
     walk(myPath, filterFiles, filterFolders, function (err, result) {
         result.map(name => {
             console.log("Folder:", name);

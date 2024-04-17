@@ -19,7 +19,7 @@ export class AuditEntryModal {
         });*/
     }
 
-    JSONstringifyOrder(obj) {
+    JSONStringifyOrder(obj) {
         const objToDisplay = {};
         let displayKeys = ["details", "version"];
         displayKeys.forEach(key => {
@@ -29,7 +29,7 @@ export class AuditEntryModal {
     }
 
     beforeRender() {
-        this.data = JSON.stringify(this.JSONstringifyOrder(this.entry), null, 4);
+        this.data = JSON.stringify(this.JSONStringifyOrder(this.entry), null, 4);
     }
 
     closeModal(_target) {
@@ -52,7 +52,7 @@ export class AuditEntryModal {
     }
 
     downloadJSON() {
-        let string = JSON.stringify(this.JSONstringifyOrder(this.entry), null, 4);
+        let string = JSON.stringify(this.JSONStringifyOrder(this.entry), null, 4);
         const blob = new Blob([string], {type: 'application/json'});
         const downloadLink = document.createElement('a');
         downloadLink.href = URL.createObjectURL(blob);
@@ -72,6 +72,7 @@ export class AuditEntryModal {
             if (!epiDetails) {
                 let toastContent = webSkel.appServices.getToastListContent(`Couldn't download EPI!!!`);
                 webSkel.notificationHandler.reportUserRelevantWarning(toastContent, new Error("Couldn't download EPI!!! Missing data!"));
+                return;
             }
             epiPayload = await webSkel.appServices.retrieveEPI(this.entry.itemCode, this.entry.batchNumber, epiDetails.epiLanguage, epiDetails.epiType, this.entry.version);
             let string = JSON.stringify(epiPayload);

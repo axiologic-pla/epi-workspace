@@ -1,5 +1,5 @@
 import constants from "./../constants.js";
-import {navigateToPage, getCurrentPageTag} from "./../utils/utils.js";
+import {navigateToPage, getCurrentPageTag} from "../utils/utils.js";
 
 const openDSU = require("opendsu");
 const scAPI = openDSU.loadAPI("sc");
@@ -65,8 +65,6 @@ class PermissionsWatcher {
                 }
                 //we try to reset no matter if we had or no any credentials...
                 await this.resettingCredentials();
-
-                return;
             }
         }).catch(async () => {
             //at this point this check if fails may not be that important....
@@ -135,7 +133,7 @@ class PermissionsWatcher {
             if (creds) {
                 await this.saveCredentials(creds);
                 if (!window.lastGroupDID) {
-                    window.lastGroupDID = creds ? creds.groupCredential.groupDID : undefined;
+                    window.lastGroupDID = typeof creds.groupCredential !== "undefined" ? creds.groupCredential.groupDID : undefined;
                     const segments = creds.groupCredential.groupDID.split(":");
                     window.currentGroup = segments.pop();
                 }

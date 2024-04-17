@@ -286,8 +286,12 @@ export class ProductsService {
     }
 
     getStrengthDiffViewObj(strengthDiffsObj) {
-        delete strengthDiffsObj.oldValue.id
-        delete strengthDiffsObj.newValue.id
+        if (strengthDiffsObj.oldValue && strengthDiffsObj.oldValue.id) {
+            delete strengthDiffsObj.oldValue.id;
+        }
+        if (strengthDiffsObj.newValue && strengthDiffsObj.newValue.id) {
+            delete strengthDiffsObj.newValue.id
+        }
         return {
             "changedProperty": strengthDiffsObj.newValue ? `${strengthDiffsObj.newValue.substance} Strength` : `${strengthDiffsObj.oldValue.substance} `,
             "oldValue": {"value": strengthDiffsObj.oldValue || "-", "directDisplay": !strengthDiffsObj.oldValue},

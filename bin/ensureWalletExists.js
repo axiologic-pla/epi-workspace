@@ -5,12 +5,8 @@ const enclaveAPI = openDSU.loadAPI("enclave");
 const config = openDSU.loadAPI("config");
 
 const ensureWalletExists = async () => {
-    let sharedEnclaveSSI;
-    try {
-        sharedEnclaveSSI = await $$.promisify(config.getEnv)(openDSU.constants.SHARED_ENCLAVE.KEY_SSI);
-    } catch (e) {
-        throw e;
-    }
+    let sharedEnclaveSSI = await $$.promisify(config.getEnv)(openDSU.constants.SHARED_ENCLAVE.KEY_SSI);
+
     if (typeof sharedEnclaveSSI === "undefined") {
         const sharedEnclave = enclaveAPI.initialiseWalletDBEnclave();
         sharedEnclave.on("initialised", async () => {

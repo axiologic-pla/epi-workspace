@@ -6,11 +6,10 @@ export class EPIsService {
     constructor() {
     }
 
-    getEpitUnit(actionElement, epiUnits) {
+    getEpiUnit(actionElement, epiUnits) {
         let epiUnit = webSkel.getClosestParentElement(actionElement, ".epi-unit");
         let id = epiUnit.getAttribute("data-id");
-        let l_unit = epiUnits.find(unit => unit.id === id);
-        return l_unit;
+        return epiUnits.find(unit => unit.id === id);
     }
 
     getEPIPayload(epi, productCode, batchNumber) {
@@ -93,6 +92,7 @@ export class EPIsService {
 
             let htmlXMLContent = xmlService.getHTMLFromXML("", xmlContent);
             let leafletHtmlContent = xmlService.buildLeafletHTMLSections(htmlXMLContent);
+            let missingImgFiles = [];
             if (!leafletHtmlContent) {
                 returnMsg = webSkel.appServices.getToastListContent(toastMessage, webSkel.appServices.generateMissingToastList(missingImgFiles));
                 return {isValid: false, message: returnMsg};
@@ -101,7 +101,6 @@ export class EPIsService {
             let leafletHtmlImages = htmlXMLContent.querySelectorAll("img");
             let uploadedImageNames = Object.keys(epiImages);
             let differentCaseImgFiles = [];
-            let missingImgFiles = [];
             let htmlImageNames = Array.from(leafletHtmlImages).map(img => img.getAttribute("src"));
 
             let dataUrlRegex = new RegExp(/^\s*data:([a-z]+\/[a-z]+(;[a-z-]+=[a-z-]+)?)?(;base64)?,[a-z0-9!$&',()*+;=\-._~:@/?%\s]*\s*$/i);

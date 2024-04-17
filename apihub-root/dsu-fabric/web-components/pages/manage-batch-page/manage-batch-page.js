@@ -339,7 +339,7 @@ export class ManageBatchPage extends CommonPresenterClass {
     }
 
     async viewLeaflet(_target) {
-        let epiObject = webSkel.appServices.getEpitUnit(_target, this.updatedBatch.EPIs);
+        let epiObject = webSkel.appServices.getEpiUnit(_target, this.updatedBatch.EPIs);
         let selectedProduct = {
             inventedName: this.element.querySelector('#inventedName').value,
             nameMedicinalProduct: this.element.querySelector('#nameMedicinalProduct').value

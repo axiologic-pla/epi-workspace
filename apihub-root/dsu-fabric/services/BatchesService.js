@@ -7,9 +7,6 @@ import {navigateToPage} from "../utils/utils.js";
 const TWO_D_BARCODES = ["datamatrix", "gs1datamatrix", "qrcode"];
 
 export class BatchesService {
-    constructor() {
-    }
-
     charsMap = {
         "33": "!",
         "34": '"',
@@ -42,6 +39,9 @@ export class BatchesService {
         "124": "|",
         "125": "}",
         "126": "~"
+    }
+
+    constructor() {
     }
 
     batchFields() {
@@ -520,7 +520,7 @@ export class BatchesService {
             let leafletEPIs = await webSkel.appServices.retrieveEPIs(productCode, batchNumber, constants.API_MESSAGE_TYPES.EPI.LEAFLET);
             let smpcEPIs = await webSkel.appServices.retrieveEPIs(productCode, batchNumber, constants.API_MESSAGE_TYPES.EPI.SMPC);
             let EPIs = [...leafletEPIs, ...smpcEPIs];
-            this.getDateInputTypeFromDateString(batch.expiryDate) !== "month" ? batch.enableExpiryDay = "on" : "off";
+            batch.enableExpiryDay = this.getDateInputTypeFromDateString(batch.expiryDate) !== "month" ? "on" : "off";
             return {batch, product, EPIs}
         } catch (err) {
             webSkel.notificationHandler.reportUserRelevantError(webSkel.appServices.getToastListContent(`Something went wrong!!!<br> Couldn't retrieve batch data. <br> Please check your network connection and configuration and try again.`), err);

@@ -374,7 +374,7 @@ export class ManageProductPage extends CommonPresenterClass {
     }
 
     async viewLeaflet(_target) {
-        let epiObject = webSkel.appServices.getEpitUnit(_target, this.productData.epiUnits);
+        let epiObject = webSkel.appServices.getEpiUnit(_target, this.productData.epiUnits);
         let epiPreviewModel = webSkel.appServices.getEpiPreviewModel(epiObject, this.productData);
         await webSkel.showModal("preview-epi-modal", {epidata: encodeURIComponent(JSON.stringify(epiPreviewModel))});
     }
