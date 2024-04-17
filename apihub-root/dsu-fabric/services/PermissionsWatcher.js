@@ -133,9 +133,13 @@ class PermissionsWatcher {
             if (creds) {
                 await this.saveCredentials(creds);
                 if (!window.lastGroupDID) {
-                    window.lastGroupDID = typeof creds.groupCredential !== "undefined" ? creds.groupCredential.groupDID : undefined;
-                    const segments = creds.groupCredential.groupDID.split(":");
-                    window.currentGroup = segments.pop();
+                    if (creds.groupCredential) {
+                        window.lastGroupDID = creds.groupCredential.groupDID;
+                        const segments = creds.groupCredential.groupDID.split(":");
+                        window.currentGroup = segments.pop();
+                    } else {
+                        throw new Error("Group Credential is missing");
+                    }
                 }
                 if (window.lastGroupDID !== creds.groupCredential.groupDID) {
                     this.notificationHandler.reportUserRelevantInfo("Your credentials have changed!");

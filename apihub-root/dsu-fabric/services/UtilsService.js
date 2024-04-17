@@ -193,7 +193,7 @@ export class UtilsService {
                 errObj = JSON.parse(err.reason);
                 errDetails = errObj.message || "";
             } catch (e) {
-                errDetails = err.reason || "";
+                errDetails = err.reason;
             }
             if (errObj.details && Array.isArray(errObj.details)) {
                 errObj.details.forEach(item => {

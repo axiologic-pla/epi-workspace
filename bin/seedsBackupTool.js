@@ -65,11 +65,7 @@ function filterFiles(name) {
 }
 
 
-function filterFolders(name) {
-    if (name) {
-
-    }
-    return undefined;
+function filterFolders() {
 }
 
 if (op === "backup") {
