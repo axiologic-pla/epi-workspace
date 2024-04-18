@@ -79,6 +79,7 @@
     "FetchEvent": "writable",
     "addCommand": "writable",
     "DataView": "writable",
-    "wprint": "writable"
+    "wprint": "writable",
+    "define": "writable"
   }
 }
