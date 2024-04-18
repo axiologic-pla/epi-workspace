@@ -1,12 +1,6 @@
 {
   "anchoring": {
-    "type": "ETH",
-    "option": {
-      "endpoint": "http://localhost:3000"
-    },
-    "commands": {
-      "addAnchor": "anchor"
-    }
+    "type": "FS"
   },
   "skipOAuth": [
     "/bricking/epi/get-brick"
